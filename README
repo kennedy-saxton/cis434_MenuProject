@@ -2,3 +2,60 @@ Subteam One: Will work on the client application development, focusing on creati
 Subteam Two: Will focus on the library, which includes the development of the API that the client application will use.
 
 Will schedule meetings between teams to discuss what we have done. Each group please add new files on the repository with the code they are working on and update with branches as they iterate to it.
+
+
+This is the following outline for us to reference for the steps needed fo the project by each group please reference:
+
+1. Project Initialization
+Team Assembly: Form two subteams as per the assignment requirement.
+Idea Approval: Get your electronic menu idea approved by the responsible party.
+
+2. Requirements Gathering
+User Requirements: Identify the needs of the restaurant staff and customers.
+System Requirements: Determine the technical requirements for both the client application and the API/library.
+
+3. Requirements Document
+Functional Requirements: Define the functionalities such as menu browsing, item selection, order customization, and payment processing.
+Non-Functional Requirements: Specify performance, usability, reliability, and other quality attributes.
+
+4. Design Phase
+System Architecture: Outline the overall architecture, including how the client and library will interact.
+Interface Design: Create mockups for the kiosk's user interface.
+API Design: Define the endpoints for the library that will handle data retrieval and order management.
+
+5. Development Phase
+Subteam One: Client Application
+UI Development: Implement the user interface using JavaFX.
+Local Storage: Code the functionality for local storage of the current session’s data.
+API Consumption: Write the logic to interact with the library's API.
+
+Subteam Two: Library
+Data Model: Design the data model for menu items and orders.
+API Development: Create the library's API to manage menu data and process orders.
+Data Storage: Implement the database or file system for persistent storage.
+
+6. Integration and Testing
+Integration: Continually integrate the client application with the library API.
+Unit Testing: Test individual components for functionality and reliability.
+Integration Testing: Test the system as a whole, especially the interaction between the client and library.
+
+7. Iteration and Improvement
+Feedback Loop: Use feedback from testing to improve the system.
+Usability Testing: Conduct tests with potential users to gather feedback on the UI/UX.
+
+8. Final Preparations
+System Refinement: Make final tweaks to the system based on user feedback.
+Documentation: Finalize all documentation, including API docs and user manuals.
+
+9. Project Review
+Internal Review: Have both subteams review the entire project.
+Presentation Preparation: Prepare to demonstrate the system's functionalities.
+
+10. Deployment
+Deployment Plan: Outline the steps for deploying the kiosk system.
+Deployment: Implement the system in a controlled environment to simulate real-world usage.
+
+11. Project Submission
+Deliverables: Ensure all code, documentation, and other deliverables are ready.
+Demonstration: Show the functionality of the kiosk system to the stakeholders.
+Submission: Submit the project as per the requirements of the assignment.
