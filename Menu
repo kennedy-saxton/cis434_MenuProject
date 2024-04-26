@@ -1,0 +1,87 @@
+package com.example.menu;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import javafx.scene.control.Button;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ChickFilAMenu extends Application {
+    private final List<Double> prices = new ArrayList<>();
+    private Label totalLabel;
+
+    @Override
+    public void start(Stage primaryStage) {
+        VBox menuLayout = new VBox(10);
+        menuLayout.setStyle("-fx-padding: 10;");
+
+        addMenuItem(menuLayout, "Chicken Sandwich", 3.75, "/Images/chicken_sandwich.png");
+        addMenuItem(menuLayout, "Waffle Fries", 1.95, "/Images/waffle_fries.jpg");
+        addMenuItem(menuLayout, "Cobb Salad", 7.99, "/Images/cobb_salad.jpg");
+        addMenuItem(menuLayout, "Chicken Shawarma", 7.99, "/Images/Chicken Shawarma.jpg");
+        addMenuItem(menuLayout, "Chicken nuggets", 7.99, "/Images/Chicken nuggets.jpg");
+        addMenuItem(menuLayout, "Biscuit", 7.99, "/Images/Biscuit.jpg");
+
+        Button exitButton = new Button("Exit");
+        exitButton.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-background-color: #ce1f1f; -fx-text-fill: #f4f2f6;");
+        exitButton.setOnAction(e -> primaryStage.close());
+        menuLayout.getChildren().add(exitButton);
+
+        totalLabel = new Label("Total: $0.00");
+        totalLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        menuLayout.getChildren().add(totalLabel);
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(menuLayout);
+        scrollPane.setFitToWidth(true);
+
+        Scene scene = new Scene(scrollPane, 600, 800);
+        primaryStage.setTitle("Chick-fil-A Menu");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void addMenuItem(VBox layout, String name, double price, String imagePath) {
+        Label nameLabel = new Label(name + " - $" + String.format("%.2f", price));
+        nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+        Image image = new Image(getClass().getResourceAsStream(imagePath));
+        if (image.isError()) {
+            throw new RuntimeException("Failed to load image: " + imagePath);
+        }
+
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(200);
+        imageView.setFitWidth(300);
+        imageView.setPreserveRatio(true);
+
+        Button addButton = new Button("Add to Order");
+        addButton.setOnAction(e -> {
+            System.out.println("Added " + name + " to order.");
+            addToOrder(price);
+        });
+
+        layout.getChildren().addAll(nameLabel, imageView, addButton);
+    }
+
+    private void addToOrder(double price) {
+        prices.add(price);
+        updateTotal();
+    }
+
+    private void updateTotal() {
+        double total = prices.stream().mapToDouble(Double::doubleValue).sum();
+        totalLabel.setText("Total: $" + String.format("%.2f", total));
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
