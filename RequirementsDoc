@@ -1,0 +1,14 @@
+Requirements
+
+Functional:
+-system must be able to connect with library API
+-kiosk must display full menu that is easily navigable
+-menu items should be sorted by category
+-users must be able to select multiple items to add to their order
+-kiosk must display accurate prices of menu items
+-system must keep a running total of items and total cost
+
+Non-Functional:
+-interface should be easy to use, view, and understand by all users
+-system should be easy to update to add new menu items and update pricing
+-system should add items to cart quickly so user has an accurate running total
