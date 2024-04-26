@@ -1,0 +1,12 @@
+Use Cases
+
+Case 1:
+-Customer wants to explore available menu options
+-Kiosk must be operational and display menu screen
+-Customer can navigate back and forth between menu items and categories
+
+Case 2:
+-Customer wants to order food items
+-Customer makes selections and adds items to cart
+-Kiosk displays cart total and sends customer to checkout
+
