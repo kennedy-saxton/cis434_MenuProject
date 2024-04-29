@@ -1,0 +1,341 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package menusystem;
+import java.util.List;
+/**
+ *
+ * @author erichernandez
+ */
+public class MainApplication {
+
+    public static void main(String[] args) {
+        MenuService menuService = new MenuService();
+
+        // Add menu items
+        MenuItem coffee = new MenuItem(1, "Coffee", "Freshly brewed coffee", 1.99, 1);
+        menuService.addMenuItem(coffee);
+
+        // Create an order and add it
+        Order order = new Order(1);
+        order.addItem(coffee);
+        menuService.addOrder(order);
+
+        // Retrieve and display menu items
+        List<MenuItem> menuItems = menuService.getMenuItems();
+        System.out.println("Menu Items:");
+        for (MenuItem item : menuItems) {
+            System.out.println(item.getName() + " - $" + item.getPrice());
+        }
+
+        // Retrieve and display orders
+        List<Order> orders = menuService.getOrders();
+        System.out.println("\nOrders:");
+        for (Order ord : orders) {
+            System.out.println("Order ID: " + ord.getId() + ", Total Price: $" + ord.getTotalPrice());
+        }
+    }
+}
+//category.java
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package menusystem;
+
+/**
+ *
+ * @author erichernandez
+ */
+import java.util.ArrayList;
+import java.util.List;
+
+public class Category {
+    private final int id;
+    private String name;
+    private List<MenuItem> menuItems;
+
+    public Category(int id, String name) {
+        this.id = id;
+        this.name = name;
+        this.menuItems = new ArrayList<>();
+    }
+
+    public void addMenuItem(MenuItem item) {
+        menuItems.add(item);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMenuItems(List<MenuItem> menuItems) {
+        this.menuItems = menuItems;
+    }
+    
+    // Getters and setters for name and menuItems
+    // No setter for id because it's final
+
+    // ... other getters and setters
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
+    }
+}
+// FileHandler.java
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package menusystem;
+
+/**
+ *
+ * @author erichernandez
+ */
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class FileHandler {
+
+    public static <T> void writeToFile(List<T> list, String filename) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
+            out.writeObject(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static <T> List<T> readFromFile(String filename) {
+        List<T> list = new ArrayList<>();
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
+            list = (List<T>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+}
+// MenuItem.java
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package menusystem;
+
+/**
+ *
+ * @author erichernandez
+ */
+public class MenuItem {
+    private final int id;
+    private String name;
+    private String description;
+    private double price;
+    private int categoryId; // Assuming each item belongs to one category
+
+    public MenuItem(int id, String name, String description, double price, int categoryId) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.categoryId = categoryId;
+    }
+
+    // Getters and setters for name, description, price, categoryId
+    // No setter for id because it's final
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice(){
+        return price;
+    }
+    public void setPrice(){
+        this.price = price;
+    }
+}
+//MenuService.java
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package menusystem;
+
+/**
+ *
+ * @author erichernandez
+ */
+import java.util.ArrayList;
+import java.util.List;
+
+public class MenuService {
+    private static final String MENU_FILE = "menu.data";
+    private static final String ORDER_FILE = "order.data";
+    
+    // Menu Operations
+    public List<MenuItem> getMenuItems() {
+        return FileHandler.readFromFile(MENU_FILE);
+    }
+
+    public void addMenuItem(MenuItem item) {
+        List<MenuItem> menuItems = getMenuItems();
+        menuItems.add(item);
+        FileHandler.writeToFile(menuItems, MENU_FILE);
+    }
+
+    // Order Operations
+    public List<Order> getOrders() {
+        return FileHandler.readFromFile(ORDER_FILE);
+    }
+
+    public void addOrder(Order order) {
+        List<Order> orders = getOrders();
+        orders.add(order);
+        FileHandler.writeToFile(orders, ORDER_FILE);
+    }
+
+    // Further methods can be added for updating and deleting menu items and orders
+}
+
+//menuSystem.java
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package menusystem;
+
+/**
+ *
+ * @author erichernandez
+ */
+import java.util.ArrayList;
+import java.util.List;
+
+public class MenuSystem {
+    private List<Category> categories;
+    private List<Order> orders;
+
+    public MenuSystem() {
+        categories = new ArrayList<>();
+        orders = new ArrayList<>();
+    }
+
+    public void addCategory(Category category) {
+        categories.add(category);
+    }
+
+    public void createOrder(Order order) {
+        orders.add(order);
+    }
+
+    // ... other methods to interact with the system
+
+    public static void main(String[] args) {
+        // Initialize the menu system, categories, and items
+        MenuSystem system = new MenuSystem();
+        
+        Category Entre = new Category(1, "Entre");
+        //Category desserts = new Category(2, "Desserts");
+        
+        system.addCategory(Entre);
+        //system.addCategory(desserts);
+        
+        MenuItem Csand = new MenuItem(1, "Chicken Sandwhich", "Fresh chicken", 3.75, Entre.getId());
+        MenuItem Cobb = new MenuItem(2, "Cobb Salad", "Fresh chicken", 7.99, Entre.getId());
+        MenuItem Shaw = new MenuItem(3, "Chicken Sharwarma", "Fresh chicken", 10.99, Entre.getId());
+        MenuItem Nugs = new MenuItem(4, "nuggets of chicken", "Fresh chicken", 7.99, Entre.getId());
+        MenuItem Biscuit = new MenuItem(5, "Biscuit", "Fresh chicken", 7.99, Entre.getId());
+        MenuItem Taco = new MenuItem(6, "Tacos De Birria", "Fresh chicken", 7.99, Entre.getId());
+        MenuItem Pap = new MenuItem(7, "chicken paprikash", "Fresh chicken", 9.99, Entre.getId());
+        MenuItem Pho = new MenuItem(8, "Pho", "Fresh chicken", 19.99, Entre.getId());
+        MenuItem Couscous = new MenuItem(9, "Conscous", "Fresh chicken", 24.99, Entre.getId());
+        MenuItem Fsalad = new MenuItem(10, "Faattoush Salad", "Fresh chicken", 9.99, Entre.getId());
+    
+        Entre.addMenuItem(Csand);
+        Entre.addMenuItem(Cobb);
+        Entre.addMenuItem(Shaw);
+        Entre.addMenuItem(Nugs);
+        Entre.addMenuItem(Biscuit);
+        Entre.addMenuItem(Taco);
+        Entre.addMenuItem(Pap);
+        Entre.addMenuItem(Pho);
+        Entre.addMenuItem(Couscous);
+        Entre.addMenuItem(Fsalad);
+
+        /*Create an order and add items
+        Order order = new Order(1);
+        order.addItem(coffee); 
+
+        system.createOrder(order);
+            
+        // For demonstration, print the total price of the order
+        System.out.println("Total order price: " + order.getTotalPrice());
+        */
+    }
+}
+//Order.java
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package menusystem;
+
+/**
+ *
+ * @author erichernandez
+ */
+import java.util.ArrayList;
+import java.util.List;
+
+public class Order {
+    private final int id;
+    private List<MenuItem> itemsOrdered;
+    private double totalPrice;
+
+    public Order(int id) {
+        this.id = id;
+        this.itemsOrdered = new ArrayList<>();
+        this.totalPrice = 0.0;
+    }
+
+    public void addItem(MenuItem item) {
+        itemsOrdered.add(item);
+        totalPrice += item.getPrice();
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    // ... other necessary methods
+
+    public int getId() {
+        return id;
+    }
+
+    public List<MenuItem> getItemsOrdered() {
+        return itemsOrdered;
+    }
+}
+
